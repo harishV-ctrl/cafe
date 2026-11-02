@@ -1,1 +1,134 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harish Cafe | 3D Billing Studio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+:root{
+  --bg:#101522;--panel:#1b2435;--panel2:#222e43;--text:#f8f4ed;
+  --muted:#aab5c6;--gold:#ffc66d;--coral:#ff806b;--mint:#75e0c0;
+  --line:rgba(255,255,255,.09);--shadow:0 22px 45px rgba(0,0,0,.32);
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:'DM Sans',sans-serif;
+ background:radial-gradient(ellipse at 10% 5%,#3b3150 0,transparent 35%),
+ radial-gradient(ellipse at 90% 20%,#173e4a 0,transparent 32%),var(--bg)}
+button,input{font:inherit}
+.topbar{padding:25px clamp(18px,5vw,70px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);background:rgba(12,17,29,.45);backdrop-filter:blur(16px)}
+.brand{display:flex;gap:14px;align-items:center}
+.logo{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;font-size:27px;
+ background:linear-gradient(145deg,#ffe1a3,#e9875c);color:#39251d;
+ box-shadow:inset 4px 4px 8px #fff7, inset -5px -6px 9px #8c402b66,0 10px 22px #0007;transform:rotate(-5deg)}
+.kicker{font-size:10px;letter-spacing:3px;color:var(--mint);font-weight:800;margin:0 0 4px}
+h1{font:800 29px 'Playfair Display',serif;margin:0}h1 span{color:var(--gold)}
+.header-right{display:flex;gap:12px;align-items:center}.live{font-size:12px;color:var(--mint);background:#75e0c018;border:1px solid #75e0c044;padding:10px 13px;border-radius:30px}
+.container{max-width:1450px;margin:auto;padding:32px clamp(15px,4vw,55px) 20px}
+.welcome{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px;gap:15px}
+.welcome h2{font:700 clamp(25px,3vw,36px) 'Playfair Display',serif;margin:0}
+.welcome p{color:var(--muted);margin:7px 0 0;font-size:13px}
+.date-chip{color:var(--gold);font-size:12px;border:1px solid #ffc66d55;background:#ffc66d12;padding:11px 15px;border-radius:12px}
+.dashboard{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,.85fr);gap:22px;align-items:start}
+.panel{background:linear-gradient(145deg,rgba(37,49,70,.96),rgba(23,31,47,.97));border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:24px;position:relative;overflow:hidden}
+.panel:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,#ffffff0c,transparent 35%);border-radius:inherit}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;position:relative}
+.panel h3{font:700 22px 'Playfair Display',serif;margin:0}
+.small-label{font-size:10px;letter-spacing:2px;color:var(--mint);font-weight:800;margin:0 0 7px}
+.search{width:min(220px,45%);padding:12px 14px;background:#111a29;border:1px solid var(--line);border-radius:12px;color:white;outline:none}
+.search:focus,.customer:focus{border-color:var(--gold)}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0}
+.cat{border:1px solid var(--line);background:#ffffff08;color:var(--muted);padding:9px 14px;border-radius:10px;cursor:pointer;transition:.2s}
+.cat.active,.cat:hover{background:linear-gradient(135deg,var(--gold),#ff956c);color:#34231e;border-color:transparent;box-shadow:0 6px 16px #ff956c33;transform:translateY(-2px)}
+.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
+.item{min-height:165px;text-align:left;color:var(--text);border:1px solid var(--line);border-radius:17px;padding:15px;background:linear-gradient(145deg,#ffffff12,#ffffff04);cursor:pointer;transition:.22s;box-shadow:inset 1px 1px 0 #ffffff12,0 7px 15px #0002}
+.item:hover{transform:translateY(-5px) rotateX(3deg);border-color:#ffc66d88;box-shadow:0 14px 24px #0005,0 0 0 1px #ffc66d22}
+.food-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:25px;background:linear-gradient(145deg,#fff2d9,#d88d69);box-shadow:inset 3px 3px 6px #fff9,inset -4px -5px 7px #8b4c3666,0 7px 12px #0004;margin-bottom:12px}
+.food-name{font-size:14px;font-weight:800}.food-category{font-size:11px;color:var(--muted);margin:4px 0 12px}
+.item-bottom{display:flex;align-items:center;justify-content:space-between}.price{color:var(--gold);font-weight:800}.plus{width:26px;height:26px;display:grid;place-items:center;border-radius:9px;background:var(--coral);color:#2c1b1b;font-weight:900}
+.bill{position:sticky;top:18px}.bill-number{font-size:11px;color:var(--gold);background:#ffc66d15;border:1px solid #ffc66d44;padding:8px 11px;border-radius:9px}
+.customer{width:100%;margin:20px 0 8px;padding:13px 14px;border:1px solid var(--line);background:#111a29;color:white;border-radius:12px;outline:none}
+.customer::placeholder,.search::placeholder{color:#8390a3}
+.cart{min-height:155px;max-height:280px;overflow:auto}
+.empty{text-align:center;color:var(--muted);padding:48px 5px;font-size:13px;line-height:1.8}
+.cart-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line)}
+.cart-name{font-size:13px;font-weight:700}.cart-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.qty{display:flex;align-items:center;gap:8px}.qty button{border:1px solid var(--line);background:#ffffff10;color:white;border-radius:8px;width:27px;height:27px;cursor:pointer}.qty span{font-size:12px;min-width:12px;text-align:center}
+.summary{border-top:1px solid var(--line);padding-top:13px;margin-top:10px}.sumrow{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin:11px 0}
+.grand{border-top:1px dashed #ffffff30;padding-top:15px;margin-top:15px;color:white;font-size:16px}.grand strong{font-size:23px;color:var(--gold)}
+.actions{display:grid;grid-template-columns:.7fr 1.3fr;gap:10px;margin-top:20px}
+.btn{padding:13px;border:0;border-radius:12px;font-weight:800;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.clear{background:#ffffff12;color:var(--text);border:1px solid var(--line)}
+.print{background:linear-gradient(135deg,var(--gold),#ff906d);color:#35221c;box-shadow:0 8px 18px #ff906d33}
+.stats{display:grid;grid-template-columns:1fr 1fr auto;gap:15px;margin-top:22px}
+.stat{padding:17px 20px;border-radius:17px;background:linear-gradient(145deg,#202c40,#151e2e);border:1px solid var(--line);box-shadow:0 10px 25px #0003}
+.stat p{margin:0 0 7px;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:800}.stat strong{font-size:22px;color:var(--mint)}
+.reset{align-self:center;background:transparent;border:1px solid var(--line);color:var(--muted);padding:11px 14px;border-radius:10px;cursor:pointer}
+footer{text-align:center;color:#738095;font-size:11px;padding:25px 10px}
+@media(max-width:900px){.dashboard{grid-template-columns:1fr}.bill{position:static}}
+@media(max-width:560px){.topbar{padding:17px}.live{display:none}.welcome{align-items:flex-start;flex-direction:column}.panel{padding:17px}.menu{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:1fr 1fr}.reset{grid-column:1/-1}.search{width:48%}.item{min-height:155px}}
+@media print{body{background:white;color:#111}.topbar,.welcome,.menu-panel,.stats,footer,.actions{display:none!important}.container{padding:0}.dashboard{display:block}.panel{background:white;color:#111;box-shadow:none;border:0}.bill{position:static}.cart-sub,.sumrow{color:#444}.grand strong{color:#111}.customer{color:#111;background:white;border:0;padding-left:0}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">☕</div><div><p class="kicker">FRESH • TASTY • HAPPY</p><h1>Harish <span>Cafe</span></h1></div></div>
+  <div class="header-right"><span class="live">● SYSTEM ONLINE</span></div>
+</header>
+<main class="container">
+  <div class="welcome"><div><p class="kicker">CAFE BILLING STUDIO</p><h2>Good food. Great moments.</h2><p>Manage your orders with a little extra style.</p></div><div class="date-chip" id="today"></div></div>
+  <div class="dashboard">
+    <section class="panel menu-panel">
+      <div class="panel-head"><div><p class="small-label">THE CAFE MENU</p><h3>Choose your favourites</h3></div><input class="search" id="search" placeholder="Search menu..." oninput="renderMenu()"></div>
+      <div class="categories" id="categories"></div>
+      <div class="menu" id="menu"></div>
+    </section>
+    <aside class="panel bill">
+      <div class="panel-head"><div><p class="small-label">ORDER SUMMARY</p><h3>Customer Bill</h3></div><span class="bill-number" id="billNo">BILL #001</span></div>
+      <input class="customer" id="customer" placeholder="Customer name (optional)">
+      <div class="cart" id="cart"><div class="empty">Your bill is waiting ✨<br>Add something delicious from the menu.</div></div>
+      <div class="summary">
+        <div class="sumrow"><span>Subtotal</span><strong id="subtotal">₹0.00</strong></div>
+        <div class="sumrow"><span>GST (5% demo rate)</span><strong id="tax">₹0.00</strong></div>
+        <div class="sumrow grand"><span>Total amount</span><strong id="total">₹0.00</strong></div>
+      </div>
+      <div class="actions"><button class="btn clear" onclick="clearBill()">Clear bill</button><button class="btn print" onclick="printBill()">Print receipt ↗</button></div>
+    </aside>
+  </div>
+  <section class="stats">
+    <div class="stat"><p>TODAY'S SALES</p><strong id="sales">₹0.00</strong></div>
+    <div class="stat"><p>BILLS COMPLETED</p><strong id="count">0</strong></div>
+    <button class="reset" onclick="resetSales()">Reset demo sales</button>
+  </section>
+</main>
+<footer>HARISH CAFE · MADE WITH ☕ · 2026</footer>
+<script>
+const items=[
+{id:1,name:'Espresso Coffee',cat:'Beverages',price:60,icon:'☕'},
+{id:2,name:'Cold Coffee',cat:'Beverages',price:100,icon:'🧋'},
+{id:3,name:'Masala Tea',cat:'Beverages',price:30,icon:'🍵'},
+{id:4,name:'Veg Sandwich',cat:'Snacks',price:80,icon:'🥪'},
+{id:5,name:'French Fries',cat:'Snacks',price:90,icon:'🍟'},
+{id:6,name:'Veg Burger',cat:'Snacks',price:120,icon:'🍔'},
+{id:7,name:'Chocolate Cake',cat:'Desserts',price:110,icon:'🍰'},
+{id:8,name:'Brownie',cat:'Desserts',price:90,icon:'🍫'},
+{id:9,name:'Ice Cream',cat:'Desserts',price:70,icon:'🍨'}
+];
+let cart={},category='All',bill=Number(localStorage.getItem('hcBill')||1);
+const fmt=n=>'₹'+n.toFixed(2);
+document.getElementById('today').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+function categories(){let all=['All',...new Set(items.map(x=>x.cat))];document.getElementById('categories').innerHTML=all.map(c=>`<button class="cat ${category===c?'active':''}" onclick="setCategory('${c}')">${c}</button>`).join('')}
+function setCategory(c){category=c;categories();renderMenu()}
+function renderMenu(){let q=document.getElementById('search').value.toLowerCase();let list=items.filter(x=>(category==='All'||x.cat===category)&&x.name.toLowerCase().includes(q));document.getElementById('menu').innerHTML=list.map(x=>`<button class="item" onclick="add(${x.id})"><div class="food-icon">${x.icon}</div><div class="food-name">${x.name}</div><div class="food-category">${x.cat}</div><div class="item-bottom"><span class="price">${fmt(x.price)}</span><span class="plus">+</span></div></button>`).join('')||'<p>No items found.</p>'}
+function add(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function change(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];renderCart()}
+function renderCart(){let keys=Object.keys(cart);document.getElementById('cart').innerHTML=keys.length?keys.map(id=>{let x=items.find(i=>i.id===Number(id)),q=cart[id];return `<div class="cart-row"><div><div class="cart-name">${x.name}</div><div class="cart-sub">${fmt(x.price)} × ${q} = ${fmt(x.price*q)}</div></div><div class="qty"><button onclick="change(${id},-1)">−</button><span>${q}</span><button onclick="change(${id},1)">+</button></div></div>`}).join(''):'<div class="empty">Your bill is waiting ✨<br>Add something delicious from the menu.</div>';let sub=keys.reduce((s,id)=>s+items.find(i=>i.id===Number(id)).price*cart[id],0),tax=sub*.05;document.getElementById('subtotal').textContent=fmt(sub);document.getElementById('tax').textContent=fmt(tax);document.getElementById('total').textContent=fmt(sub+tax)}
+function clearBill(){cart={};document.getElementById('customer').value='';renderCart()}
+function printBill(){if(!Object.keys(cart).length){alert('Add at least one menu item first.');return}let sub=Object.keys(cart).reduce((s,id)=>s+items.find(i=>i.id===Number(id)).price*cart[id],0);let records=JSON.parse(localStorage.getItem('hcSales')||'[]');records.push({total:sub*1.05,date:new Date().toDateString()});localStorage.setItem('hcSales',JSON.stringify(records));bill++;localStorage.setItem('hcBill',bill);document.getElementById('billNo').textContent='BILL #'+String(bill).padStart(3,'0');updateStats();window.print();clearBill()}
+function updateStats(){let records=JSON.parse(localStorage.getItem('hcSales')||'[]').filter(x=>x.date===new Date().toDateString());document.getElementById('sales').textContent=fmt(records.reduce((s,x)=>s+x.total,0));document.getElementById('count').textContent=records.length}
+function resetSales(){if(confirm('Reset the demo sales stored in this browser?')){localStorage.removeItem('hcSales');updateStats()}}
+document.getElementById('billNo').textContent='BILL #'+String(bill).padStart(3,'0');categories();renderMenu();renderCart();updateStats();
+</script>
+</body>
+</html>
